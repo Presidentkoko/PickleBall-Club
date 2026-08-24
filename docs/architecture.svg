@@ -1,0 +1,101 @@
+<svg viewBox="0 0 1200 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SVPC architecture diagram" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="acard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0e211b"/>
+      <stop offset="1" stop-color="#0a1a15"/>
+    </linearGradient>
+    <linearGradient id="anext" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#123028"/>
+      <stop offset="1" stop-color="#0c2119"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#34d399"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="470" rx="16" fill="#061410"/>
+
+  <text x="40" y="52" font-size="24" font-weight="800" fill="#ecfdf5">Architecture</text>
+  <text x="40" y="78" font-size="14" fill="#7f9c91">One Next.js app — server &amp; client — talking to a managed Postgres database.</text>
+
+  <!-- Column 1: Client -->
+  <g>
+    <rect x="40" y="110" width="250" height="210" rx="14" fill="url(#acard)" stroke="#1f3d33"/>
+    <rect x="40" y="110" width="250" height="44" rx="14" fill="#10b981" fill-opacity="0.14"/>
+    <text x="64" y="138" font-size="17" font-weight="700" fill="#a7f3d0">Client (Browser)</text>
+    <g font-size="14" fill="#cbd5cf">
+      <text x="64" y="184">• React 19</text>
+      <text x="64" y="212">• Tailwind CSS v4</text>
+      <text x="64" y="240">• Base UI + ShadCN</text>
+      <text x="64" y="268">• Framer Motion</text>
+      <text x="64" y="296">• next-themes (dark/light)</text>
+    </g>
+  </g>
+
+  <!-- Column 2: Next.js -->
+  <g>
+    <rect x="330" y="110" width="270" height="210" rx="14" fill="url(#anext)" stroke="#2b5546"/>
+    <rect x="330" y="110" width="270" height="44" rx="14" fill="#10b981" fill-opacity="0.2"/>
+    <text x="354" y="138" font-size="17" font-weight="700" fill="#d1fae5">Next.js 16 · App Router</text>
+    <g font-size="13.5" fill="#cbd5cf">
+      <rect x="354" y="168" width="222" height="34" rx="8" fill="#0a1a15" stroke="#1f3d33"/>
+      <text x="366" y="190">Server Components &amp; Pages</text>
+      <rect x="354" y="210" width="222" height="34" rx="8" fill="#0a1a15" stroke="#1f3d33"/>
+      <text x="366" y="232">Route Handlers · /api</text>
+      <rect x="354" y="252" width="222" height="34" rx="8" fill="#0a1a15" stroke="#1f3d33"/>
+      <text x="366" y="274">proxy.ts · JWT RBAC gate</text>
+    </g>
+  </g>
+
+  <!-- Column 3: Prisma -->
+  <g>
+    <rect x="640" y="110" width="220" height="210" rx="14" fill="url(#acard)" stroke="#1f3d33"/>
+    <rect x="640" y="110" width="220" height="44" rx="14" fill="#10b981" fill-opacity="0.14"/>
+    <text x="664" y="138" font-size="17" font-weight="700" fill="#a7f3d0">Data Access</text>
+    <g font-size="14" fill="#cbd5cf">
+      <text x="664" y="184">• Prisma 6 ORM</text>
+      <text x="664" y="212">• Zod validation</text>
+      <text x="664" y="240">• Type-safe queries</text>
+      <text x="664" y="268">• Audit logging</text>
+    </g>
+  </g>
+
+  <!-- Column 4: DB -->
+  <g>
+    <rect x="900" y="110" width="260" height="210" rx="14" fill="url(#acard)" stroke="#1f3d33"/>
+    <rect x="900" y="110" width="260" height="44" rx="14" fill="#10b981" fill-opacity="0.14"/>
+    <text x="924" y="138" font-size="17" font-weight="700" fill="#a7f3d0">Database</text>
+    <g font-size="14" fill="#cbd5cf">
+      <text x="924" y="184">• Neon PostgreSQL</text>
+      <text x="924" y="212">• Pooled + direct URLs</text>
+      <text x="924" y="240">• 20+ relational models</text>
+      <text x="924" y="268">• Serverless / cloud</text>
+    </g>
+  </g>
+
+  <!-- arrows -->
+  <g stroke="#34d399" stroke-width="2.5" fill="none">
+    <line x1="292" y1="215" x2="326" y2="215" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+    <line x1="602" y1="215" x2="636" y2="215" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+    <line x1="862" y1="215" x2="896" y2="215" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+  </g>
+  <g font-size="11" fill="#7f9c91" text-anchor="middle">
+    <text x="309" y="205">HTTPS</text>
+    <text x="619" y="205">calls</text>
+    <text x="879" y="205">SQL</text>
+  </g>
+
+  <!-- services strip -->
+  <g>
+    <rect x="40" y="352" width="1120" height="82" rx="14" fill="#0a1a15" stroke="#1f3d33"/>
+    <text x="64" y="382" font-size="14" font-weight="700" fill="#a7f3d0">Auth &amp; Integrations</text>
+    <g font-size="13.5" fill="#cbd5cf">
+      <text x="64" y="412">jose (JWT)</text>
+      <text x="200" y="412">bcryptjs</text>
+      <text x="320" y="412">Cloudinary (images)</text>
+      <text x="520" y="412">Resend (email)</text>
+      <text x="700" y="412">Recharts (analytics)</text>
+      <text x="900" y="412">sonner (toasts)</text>
+    </g>
+  </g>
+</svg>
