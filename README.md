@@ -215,8 +215,11 @@ Deploy to **[Vercel](https://vercel.com)** in a few clicks:
 
 1. Push this repo to GitHub.
 2. Import it in Vercel.
-3. Add the environment variables from the table above (use your Neon connection strings).
-4. Vercel runs `next build` automatically. Run `npm run db:migrate:deploy` (or `db:push`) once against your production database.
+3. Add `DATABASE_URL`, `DIRECT_URL`, and `JWT_SECRET` in **Project Settings → Environment Variables** (use your Neon connection strings). Add the optional variables there too if you use those integrations.
+4. Deploy. The build script generates Prisma Client before running `next build`.
+5. Before opening the production app, run `npm run db:push` and `npm run db:seed` once against the production database from a trusted machine. Change or remove the seeded demo credentials immediately.
+
+> Vercel does not need a custom framework preset or output directory; select **Next.js** and leave the root directory at the repository root. Redeploy after changing environment variables.
 
 Any Node host works too — build with `npm run build` and serve with `npm run start`.
 
