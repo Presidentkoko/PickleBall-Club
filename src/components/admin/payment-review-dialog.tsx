@@ -30,20 +30,22 @@ export type PaymentSummary = {
 export function PaymentReviewDialog({ payment }: { payment: PaymentSummary }) {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
   const [submitting, setSubmitting] = React.useState<string | null>(null);
-  const [proofUrl, setProofUrl] = React.useState<string | null>(null);
+  const [proofUrl, setProofUrl] = React.useState<string | null | undefined>(undefined);
   const [reason, setReason] = React.useState("");
 
   React.useEffect(() => {
     if (!open) return;
-    setLoading(true);
     fetch(`/api/admin/payments/${payment.id}`)
       .then((r) => r.json())
       .then((j) => setProofUrl(j?.data?.proofUrl ?? null))
-      .catch(() => setProofUrl(null))
-      .finally(() => setLoading(false));
+      .catch(() => setProofUrl(null));
   }, [open, payment.id]);
+
+  function handleOpenChange(nextOpen: boolean) {
+    if (nextOpen) setProofUrl(undefined);
+    setOpen(nextOpen);
+  }
 
   async function act(action: "verify" | "reject" | "request_proof") {
     if (action === "reject" && !reason.trim()) {
@@ -84,7 +86,7 @@ export function PaymentReviewDialog({ payment }: { payment: PaymentSummary }) {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger render={<Button variant="outline" size="sm">Review</Button>} />
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
@@ -116,7 +118,7 @@ export function PaymentReviewDialog({ payment }: { payment: PaymentSummary }) {
 
           <div>
             <Label className="mb-1.5">Proof of payment</Label>
-            {loading ? (
+            {proofUrl === undefined ? (
               <div className="h-44 animate-pulse rounded-lg bg-muted" />
             ) : proofUrl ? (
               // eslint-disable-next-line @next/next/no-img-element

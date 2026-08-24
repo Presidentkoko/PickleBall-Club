@@ -46,20 +46,22 @@ function Row({ label, value }: { label: string; value?: string | null }) {
 export function ApplicationReviewDialog({ application }: { application: Application }) {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
   const [busy, setBusy] = React.useState<string | null>(null);
-  const [proofUrl, setProofUrl] = React.useState<string | null>(null);
+  const [proofUrl, setProofUrl] = React.useState<string | null | undefined>(undefined);
   const [message, setMessage] = React.useState("");
 
   React.useEffect(() => {
     if (!open) return;
-    setLoading(true);
     fetch(`/api/admin/applications/${application.membershipId}`)
       .then((r) => r.json())
       .then((j) => setProofUrl(j?.data?.payment?.proofUrl ?? null))
-      .catch(() => setProofUrl(null))
-      .finally(() => setLoading(false));
+      .catch(() => setProofUrl(null));
   }, [open, application.membershipId]);
+
+  function handleOpenChange(nextOpen: boolean) {
+    if (nextOpen) setProofUrl(undefined);
+    setOpen(nextOpen);
+  }
 
   async function act(action: "approve" | "reject" | "request_info" | "note") {
     if (action === "reject" && !message.trim()) {
@@ -106,7 +108,7 @@ export function ApplicationReviewDialog({ application }: { application: Applicat
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger render={<Button variant="outline" size="sm">Review</Button>} />
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
@@ -136,7 +138,7 @@ export function ApplicationReviewDialog({ application }: { application: Applicat
 
           <div>
             <Label className="mb-1.5">Proof of payment</Label>
-            {loading ? (
+            {proofUrl === undefined ? (
               <div className="h-44 animate-pulse rounded-lg bg-muted" />
             ) : proofUrl ? (
               // eslint-disable-next-line @next/next/no-img-element

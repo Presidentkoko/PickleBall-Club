@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -38,7 +38,6 @@ export function RegisterForm({
     register,
     handleSubmit,
     control,
-    watch,
     formState: { errors, isSubmitting },
   } = useForm<MemberRegistrationInput>({
     resolver: zodResolver(memberRegistrationSchema),
@@ -51,8 +50,8 @@ export function RegisterForm({
     },
   });
 
-  const type = watch("type");
-  const method = watch("method");
+  const type = useWatch({ control, name: "type" });
+  const method = useWatch({ control, name: "method" });
   const fee = fees[type] ?? 0;
 
   async function onSubmit(values: MemberRegistrationInput) {

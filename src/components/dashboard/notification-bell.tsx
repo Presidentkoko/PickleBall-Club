@@ -38,9 +38,12 @@ export function NotificationBell() {
   }, []);
 
   React.useEffect(() => {
-    load();
+    const initial = setTimeout(load, 0);
     const t = setInterval(load, 30000);
-    return () => clearInterval(t);
+    return () => {
+      clearTimeout(initial);
+      clearInterval(t);
+    };
   }, [load]);
 
   async function markAll() {
